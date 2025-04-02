@@ -5,7 +5,7 @@
 #include <math.h>
 
 // Logistic Regression Parameters (from trained Scikit-Learn model)
-float intercepts[5] = {1.19165903, -1.06551768, -0.33707432,  0.19834431,  0.01258866};  // Beta 0 for each class
+float intercepts[5] = {1.19165903, -1.06551768, -0.33707432, 0.19834431, 0.01258866};  // Beta 0 for each class
 
 float coefficients[5][13] = {
     {-0.072313, -0.512722, -0.208434, 1.011521, -0.741579, -0.785168, -0.468310, -0.388264, -0.301377, 0.130499, -0.873616, -0.400641, -0.722120},
@@ -18,12 +18,10 @@ float coefficients[5][13] = {
 // Softmax function
 void softmax(float logits[], float probabilities[], int num_classes) {
     float sum_exp = 0.0;
-
     for (int i = 0; i < num_classes; i++) {
         probabilities[i] = exp(logits[i]);
         sum_exp += probabilities[i];
     }
-
     for (int i = 0; i < num_classes; i++) {
         probabilities[i] /= sum_exp;
     }
@@ -31,28 +29,25 @@ void softmax(float logits[], float probabilities[], int num_classes) {
 
 // Prediction function
 int predict(float inputs[], int num_features, int num_classes) {
-    float logits[3];
-    float probabilities[3];
+    float logits[5];  // Adjusted for 5 classes
+    float probabilities[5];
 
     Serial.println("\n===============================");
     Serial.println("Input Features:");
     for (int i = 0; i < num_features; i++) {
-        Serial.print("X");
-        Serial.print(i + 1);
-        Serial.print(": ");
-        Serial.println(inputs[i], 4);
+        Serial.print(inputs[i], 4);
+        if (i < num_features - 1) {
+            Serial.print(", ");
+        }
     }
+    Serial.println();
 
-    Serial.println("\nComputed Logits:");
+    // Compute logits
     for (int i = 0; i < num_classes; i++) {
         logits[i] = intercepts[i];
         for (int j = 0; j < num_features; j++) {
             logits[i] += coefficients[i][j] * inputs[j];
         }
-        Serial.print("Z_");
-        Serial.print(i);
-        Serial.print(": ");
-        Serial.println(logits[i], 4);
     }
 
     // Apply softmax
@@ -68,14 +63,7 @@ int predict(float inputs[], int num_features, int num_classes) {
         }
     }
 
-    Serial.println("\nClass Probabilities:");
-    for (int i = 0; i < num_classes; i++) {
-        Serial.print("Class ");
-        Serial.print(i);
-        Serial.print(": ");
-        Serial.println(probabilities[i], 4);
-    }
-
+    Serial.print("\nPredicted Class: ");
     return predicted_class;
 }
 
