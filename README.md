@@ -1,4 +1,6 @@
-# **Optimizing Cancer Classificationfor Edge Devices Using TinyML**
+# **Optimizing Cancer Classification for Edge Devices Using TinyML**
+![header image](resources/header.png)
+
 
 ## 📌 **Project Overview**
 This project focuses on building a low-power, real-time cancer classification system using **TinyML** and deploying it on an **Arduino Nano** microcontroller. By leveraging RNA-Seq gene expression data, the project demonstrates how high-dimensional biomedical data can be preprocessed, analyzed, and modeled to predict different types of cancer. The final model is optimized and converted into a lightweight format suitable for embedded environments.
